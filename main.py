@@ -115,7 +115,6 @@ class MyGUI:
 
         self.buttonFrame = tk.Frame(self.root)
 
-        # TODO: move buttons
         tb.Style().configure('TButton', font=('Calibri', 16))
         self.createButton = tb.Button(self.buttonFrame, text="Create", command=self.create, bootstyle="primary")
         self.createButton.grid(row=1, column=1, sticky="ew", padx=(5, 5), pady=(0, 5))
