@@ -1,0 +1,89 @@
+from docx import Document
+from docx.shared import Pt
+from datetime import datetime
+
+currDate = datetime.now().date()
+
+title = "MR"
+firstname = "Tony"
+surname = "Bechara"
+
+street = "119 Noble Ave"
+city = "Greenacre"
+state = "NSW"
+postcode = "2190"
+
+email = "tonybechara@outlook.com"
+
+position = "HSEQ Manager"
+employer = "Payroll Services Sydney Australia Pty Ltd"
+startDate = datetime(2024, 5, 13)
+employType = "full-time"
+
+tep = 115000
+rate = 0.11
+baseSalary = tep / (1 + rate)
+superannuation = tep - baseSalary
+
+manager = "Construction Manager"
+
+def titleCustom(s):
+    return ' '.join(word[0].upper() + word[1:] if word.isupper() else word.capitalize() for word in s.split())
+
+def replaceText(p, replaceList):
+    for key, value in replaceList.items():
+        key = "<{}>".format(key)
+        if key in p.text:
+            p.text = p.text.replace(key, value)
+
+def replaceParagraph(doc, replaceList):
+    for p in doc.paragraphs:
+        p.style = doc.styles['Normal']
+        replaceText(p, replaceList)
+
+def replaceTable(doc, replaceList):
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                p = cell.paragraphs[0]
+                p.style = doc.styles['Normal']
+                replaceText(p, replaceList)
+
+def createContract(template):
+    style = template.styles['Normal']
+    font = style.font
+    font.name = 'Calibri'
+    font.size = Pt(11)
+
+    replaceList = {
+        "curr_date": currDate.strftime("%d %B %Y"),
+        "TITLE": title.upper(),
+        "FIRSTNAME": firstname.upper(),
+        "SURNAME": surname.upper(),
+        "STREET": street.upper(),
+        "CITY": city.upper(),
+        "STATE": state.upper(),
+        "POSTCODE": postcode,
+        "email": email,
+        "firstname": titleCustom(firstname),
+        "position": position,
+        "employer": titleCustom(employer),
+        "start_date": startDate.strftime("%A %d %B %Y"),
+        "employment_type": employType,
+        "tep": f"{tep:,.2f}",
+        "salary": f"{baseSalary:,.2f}",
+        "super": f"{superannuation:,.2f}",
+        "manager": titleCustom(manager),
+        "surname": titleCustom(surname)
+    }
+
+    replaceParagraph(template, replaceList)
+    replaceTable(template, replaceList)
+
+    # replace placeholders and return file name
+    outFileName = "Employment Contract ({})".format(firstname.title() + " " + surname.title())
+    # save the new document
+    template.save('files/' + outFileName + '.docx')
+
+template = Document('files/template.docx')
+createContract(template)

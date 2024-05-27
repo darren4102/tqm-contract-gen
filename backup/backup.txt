@@ -1,0 +1,24 @@
+    currDate = datetime.now().date()
+
+    title = "MR"
+    firstname = "Tony"
+    surname = "Bechara"
+
+    street = "119 Noble Ave"
+    city = "Greenacre"
+    state = "NSW"
+    postcode = "2190"
+
+    email = "tonybechara@outlook.com"
+
+    position = "HSEQ Manager"
+    employer = "Payroll Services Sydney Australia Pty Ltd"
+    startDate = datetime(2024, 5, 13)
+    employType = "full-time"
+
+    tep = 115000
+    rate = 0.11
+    baseSalary = tep / (1 + rate)
+    superannuation = tep - baseSalary
+
+    manager = "Construction Manager"

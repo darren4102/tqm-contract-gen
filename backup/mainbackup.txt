@@ -1,0 +1,158 @@
+from datetime import datetime
+import tkinter as tk
+from tkinter import messagebox
+from docx import Document
+from gen import CreateContract
+
+class MyGUI:
+
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.geometry("500x800")
+
+        self.label = tk.Label(self.root, text="Create New Contract", font=('Calibri', 18))
+        self.label.pack(padx=10, pady=10)
+
+        self.entryFrame = tk.Frame(self.root)
+        self.entryFrame.columnconfigure(0, weight=1)
+        self.entryFrame.columnconfigure(1, weight=1)
+        self.entryFrame.columnconfigure(2, weight=1)
+        self.entryFrame.columnconfigure(3, weight=1)
+        self.entryFrame.columnconfigure(4, weight=1)
+        self.entryFrame.columnconfigure(5, weight=1)
+        self.entryFrame.columnconfigure(6, weight=1)
+        self.entryFrame.columnconfigure(7, weight=1)
+        self.entryFrame.columnconfigure(8, weight=1)
+        self.entryFrame.columnconfigure(9, weight=1)
+        self.entryFrame.columnconfigure(10, weight=1)
+        self.entryFrame.columnconfigure(11, weight=1)
+
+        
+        # Title
+        self.titleLabel = tk.Label(self.entryFrame, text="Title", font=('Calibri', 16))
+        self.titleEntry = tk.Entry(self.entryFrame, font=('Calibri', 16), width=4)
+        self.titleLabel.grid(row=0, column=0, sticky="w")
+        self.titleEntry.grid(row=1, column=0, sticky="ew")
+
+        # First name
+        self.firstnameLabel = tk.Label(self.entryFrame, text="First name", font=('Calibri', 16))
+        self.firstnameEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.firstnameLabel.grid(row=0, column=1, columnspan=5, sticky="w")
+        self.firstnameEntry.grid(row=1, column=1, columnspan=5, sticky="ew")
+
+        # Surname
+        self.surnameLabel = tk.Label(self.entryFrame, text="Surname", font=('Calibri', 16))
+        self.surnameEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.surnameLabel.grid(row=0, column=6, columnspan=5, sticky="w")
+        self.surnameEntry.grid(row=1, column=6, columnspan=5)
+
+        # Street
+        self.streetLabel = tk.Label(self.entryFrame, text="Street", font=('Calibri', 16))
+        self.streetEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.streetLabel.grid(row=2, column=0, sticky="w")
+        self.streetEntry.grid(row=3, column=0, columnspan=11, sticky="ew")
+
+        # City
+        self.cityLabel = tk.Label(self.entryFrame, text="City", font=('Calibri', 16))
+        self.cityEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.cityLabel.grid(row=4, column=0, sticky="w")
+        self.cityEntry.grid(row=5, column=0, columnspan=7, sticky="ew")
+
+        # State
+        self.stateLabel = tk.Label(self.entryFrame, text="State", font=('Calibri', 16))
+        self.stateEntry = tk.Entry(self.entryFrame, font=('Calibri', 16), width=10)
+        self.stateLabel.grid(row=4, column=7, sticky="w")
+        self.stateEntry.grid(row=5, column=7, columnspan=3, sticky="ew")
+
+        # Postcode
+        self.postcodeLabel = tk.Label(self.entryFrame, text="Postcode", font=('Calibri', 16))
+        self.postcodeEntry = tk.Entry(self.entryFrame, font=('Calibri', 16), width=3)
+        self.postcodeLabel.grid(row=4, column=10, sticky="w")
+        self.postcodeEntry.grid(row=5, column=10, sticky="ew")
+
+        # Email
+        self.emailLabel = tk.Label(self.entryFrame, text="Email", font=('Calibri', 16))
+        self.emailEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.emailLabel.grid(row=6, column=0, sticky="w")
+        self.emailEntry.grid(row=7, column=0, columnspan=11, sticky="ew")
+        
+        # Position
+        self.positionLabel = tk.Label(self.entryFrame, text="Position", font=('Calibri', 16))
+        self.positionEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.positionLabel.grid(row=8, column=0, sticky="w")
+        self.positionEntry.grid(row=9, column=0, columnspan=11, sticky="ew")
+
+        # Manager
+        self.managerLabel = tk.Label(self.entryFrame, text="Manager", font=('Calibri', 16))
+        self.managerEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.managerLabel.grid(row=10, column=0, sticky="w")
+        self.managerEntry.grid(row=11, column=0, columnspan=11, sticky="ew")
+
+        # Employer
+        self.employerLabel = tk.Label(self.entryFrame, text="Employer", font=('Calibri', 16))
+        self.employerEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.employerLabel.grid(row=10, column=0, sticky="w")
+        self.employerEntry.grid(row=11, column=0, columnspan=11, sticky="ew")
+
+        # Start Date
+        self.startdateLabel = tk.Label(self.entryFrame, text="Start Date", font=('Calibri', 16))
+        self.startEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        self.startdateLabel.grid(row=12, column=0, sticky="w")
+        self.startEntry.grid(row=13, column=0, columnspan=11, sticky="ew")
+
+        # # Employment Type
+        # self.employLabel = tk.Label(self.entryFrame, text="Employment Type", font=('Calibri', 16))
+        # self.employEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        # self.employLabel.grid(row=14, column=0, sticky="w")
+        # self.employEntry.grid(row=15, column=0, columnspan=4, sticky="ew")
+
+        # # TEP
+        # self.tepLabel = tk.Label(self.entryFrame, text="TEP", font=('Calibri', 16))
+        # self.tepEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        # self.tepLabel.grid(row=16, column=4, sticky="w")
+        # self.tepEntry.grid(row=17, column=4, columnspan=4, sticky="ew")
+
+        # # Rate
+        # self.startdateLabel = tk.Label(self.entryFrame, text="Rate", font=('Calibri', 16))
+        # self.startEntry = tk.Entry(self.entryFrame, font=('Calibri', 16))
+        # self.startdateLabel.grid(row=16, column=8, sticky="w")
+        # self.startEntry.grid(row=15, column=8, columnspan=4, sticky="ew")
+
+        self.entryFrame.pack()
+
+        self.button = tk.Button(self.root, text="Create", font=('Calibri', 18), command=self.create)
+        self.button.pack(padx=5, pady=5)
+
+        self.root.protocol("WM_DELETE_WINDOW", self.onClose)
+        self.root.mainloop()
+
+    def onClose(self):
+        if messagebox.askyesno(title="Quit?", message="Do you really want to quit?"):
+            self.root.destroy()
+
+    def create(self):
+        dummyValues = {
+            "title": "MR",
+            "firstname": "Tony",
+            "surname": "Bechara",
+            "street": "119 Noble Ave",
+            "city": "Greenacre",
+            "state": "NSW",
+            "postcode": "2190",
+            "email": "tonybechara@outlook.com",
+            "position": "HSEQ Manager",
+            "employer": "Payroll Services Sydney Australia Pty Ltd",
+            "startDate": datetime(2024, 5, 13),
+            "employType": "full-time",
+            "tep": 115000,
+            "rate": 0.11,
+            "manager": "Construction Manager"
+        }
+
+        template = Document('files/template_test.docx')
+
+        CreateContract(template, dummyValues)
+
+        messagebox.showinfo("Message", "Contract successfully created!")
+
+MyGUI()
