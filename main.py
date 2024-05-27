@@ -10,7 +10,7 @@ import os
 class MyGUI:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.geometry("600x800")
+        self.root.geometry("600x850")
         self.root.resizable(width=False, height=False)
         self.root.title("Contract Creator")
         digitFunc = self.root.register(self.validateNumber)
@@ -106,20 +106,24 @@ class MyGUI:
         self.tepEntry.grid(row=17, column=0, columnspan=2, sticky="ew", padx=(5, 5), pady=(0, 5))
 
         # Rate
-        self.rateLabel = tb.Label(self.entryFrame, text="Rate (%)", font=('Calibri', 16))
+        self.rateLabel = tb.Label(self.entryFrame, text="Super Rate (%)", font=('Calibri', 16))
         self.rateEntry = tb.Entry(self.entryFrame, font=('Calibri', 16), validate="focus", validatecommand=(digitFunc, '%P'))
         self.rateLabel.grid(row=16, column=2, sticky="w", padx=(5, 5))
         self.rateEntry.grid(row=17, column=2, sticky="ew", padx=(5, 5), pady=(0, 5))
         
         self.entryFrame.pack(padx=10, pady=10)
 
+        self.buttonFrame = tk.Frame(self.root)
 
         # TODO: move buttons
-        self.createButton = tb.Button(self.root, text="Create", command=self.create, bootstyle="primary")
-        self.createButton.place(x=16, y=620)
+        tb.Style().configure('TButton', font=('Calibri', 16))
+        self.createButton = tb.Button(self.buttonFrame, text="Create", command=self.create, bootstyle="primary")
+        self.createButton.grid(row=1, column=1, sticky="ew", padx=(5, 5), pady=(0, 5))
 
-        self.resetButton = tb.Button(self.root, text="Reset", command=self.reset, bootstyle="secondary")
-        self.resetButton.place(x=105, y=620)
+        self.resetButton = tb.Button(self.buttonFrame, text="Reset", command=self.reset, bootstyle="secondary")
+        self.resetButton.grid(row=1, column=2, sticky="ew", padx=(5, 5), pady=(0, 5))
+
+        self.buttonFrame.pack(padx=10, pady=10)
 
         self.root.protocol("WM_DELETE_WINDOW", self.onClose)
         self.root.mainloop()
