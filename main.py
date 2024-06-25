@@ -10,10 +10,10 @@ import os
 class MyGUI:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.geometry("600x850")
-        self.root.resizable(width=False, height=False)
+        self.root.geometry("600x700")
+        #self.root.resizable(width=False, height=False)
         self.root.title("Contract Creator")
-        self.root.iconbitmap(default='contract.ico')
+        #self.root.iconbitmap(default='contract.ico')
         digitFunc = self.root.register(self.validateNumber)
         inputFunc = self.root.register(self.validateInput)
 

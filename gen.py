@@ -3,13 +3,14 @@ from docx.shared import Pt
 from datetime import datetime
 from tkinter import filedialog
 import os
+import comtypes.client
 
 class CreateContract:
 
     # Capitalise first letter of each word but keep letters already capitalised
     def titleCustom(self, s):
         return ' '.join(word[0].upper() + word[1:] if word.isupper() else word.capitalize() for word in s.split())
-
+    
     def replaceText(self, p, replaceList):
         for key, value in replaceList.items():
             key = "<{}>".format(key)
@@ -56,21 +57,31 @@ class CreateContract:
             "manager": self.titleCustom(self.manager),
             "surname": self.titleCustom(self.surname)
         }
-
+    
         self.replaceParagraph(template, replaceList)
         self.replaceTable(template, replaceList)
 
         # save the new document
         filename = "Employment Contract ({})".format(self.firstname.title() + " " + self.surname.title())
         directory = filedialog.askdirectory()
+        path = ""
 
         if os.path.exists(f"{directory}/{filename}.docx"):
             i = 1;
             while os.path.exists(f"{directory}/{filename} ({i}).docx"):
                 i += 1
             template.save(f"{directory}/{filename} ({i}).docx")
+            path = f"{directory}/{filename} ({i})"
         else:
             template.save(f"{directory}/{filename}.docx")
+            path = f"{directory}/{filename}"
+        
+        wdFormatPDF = 17
+        word = comtypes.client.CreateObject('Word.Application')
+        doc = word.Documents.Open(path + ".docx")
+        doc.SaveAs(path + ".pdf", FileFormat=wdFormatPDF)
+        doc.Close()
+        word.Quit()
 
     def __init__(self, template, values):
         self.currDate = datetime.now().date()
