@@ -3,8 +3,23 @@ from docx.shared import Pt
 from datetime import datetime
 from tkinter import filedialog
 import os
+import comtypes.client
 
 class CreateContract:
+
+    def convertDocxPDF(self, indir, outdir):
+        wdFormatPDF = 17
+
+        in_file = os.path.abspath(indir)
+        out_file = os.path.abspath(outdir)
+
+        word = comtypes.client.CreateObject('Word.Application')
+        word.visible = False
+        doc = word.Documents.Open(in_file)
+        doc.SaveAs(out_file, FileFormat=wdFormatPDF)
+        doc.Close()
+        word.Quit()
+        os.remove(in_file)
 
     # Capitalise first letter of each word but keep letters already capitalised
     def titleCustom(self, s):
@@ -63,14 +78,17 @@ class CreateContract:
         # save the new document
         filename = "Employment Contract ({})".format(self.firstname.title() + " " + self.surname.title())
         directory = filedialog.askdirectory()
+        
+        tempfile = "temp_contract.docx"
+        template.save(tempfile)
 
-        if os.path.exists(f"{directory}/{filename}.docx"):
-            i = 1;
-            while os.path.exists(f"{directory}/{filename} ({i}).docx"):
+        if os.path.exists(f"{directory}/{filename}.pdf"):
+            i = 1
+            while os.path.exists(f"{directory}/{filename} ({i}).pdf"):
                 i += 1
-            template.save(f"{directory}/{filename} ({i}).docx")
+            self.convertDocxPDF(tempfile, f"{directory}/{filename} ({i}).pdf")
         else:
-            template.save(f"{directory}/{filename}.docx")
+            self.convertDocxPDF(tempfile, f"{directory}/{filename}.pdf")
 
     def __init__(self, template, values):
         self.currDate = datetime.now().date()

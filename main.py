@@ -9,6 +9,7 @@ import os
 
 class MyGUI:
     def __init__(self):
+        os.chdir(sys._MEIPASS)
         self.root = tk.Tk()
         self.root.geometry("600x850")
         self.root.resizable(width=False, height=False)
