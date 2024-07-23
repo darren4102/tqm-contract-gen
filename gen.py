@@ -4,7 +4,7 @@ from datetime import datetime
 from tkinter import filedialog
 import os
 
-class CreateContract:
+class Contract:
 
     # Capitalise first letter of each word but keep letters already capitalised
     def titleCustom(self, s):
@@ -72,7 +72,7 @@ class CreateContract:
         else:
             template.save(f"{directory}/{filename}.docx")
 
-    def __init__(self, template, values):
+    def __init__(self, values: dict[str, str]):
         self.currDate = datetime.now().date()
         self.title = values["title"]
         self.firstname = values["firstname"]
@@ -91,5 +91,3 @@ class CreateContract:
         self.baseSalary = self.tep / (1 + self.rate / 100)
         self.superannuation = self.tep - self.baseSalary
         self.manager = values["manager"]
-        
-        self.createContract(template)

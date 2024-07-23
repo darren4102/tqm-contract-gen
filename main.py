@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import StringVar, messagebox, font, filedialog
 import ttkbootstrap as tb
 from docx import Document
-from gen import CreateContract
+from gen import Contract
 import os
 
 class MyGUI:
@@ -172,7 +172,8 @@ class MyGUI:
         template = Document(templateFilepath)
 
         # takes entryValues as String
-        template = CreateContract(template, entryValues)
+        contract = Contract(entryValues)
+        contract.createContract(template)
 
         messagebox.showinfo("Message", "Contract successfully created!")
 
